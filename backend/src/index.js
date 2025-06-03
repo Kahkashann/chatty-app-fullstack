@@ -38,7 +38,11 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-server.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
-  connectDB();
-});
+const startServer = async () => {
+  await connectDB(); // ✅ Wait for DB
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+};
+
+startServer();
