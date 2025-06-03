@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 
-import path from 'path'
+import path from "path";
 
 import { connectDB } from "./lib/db.js";
 
@@ -23,24 +23,19 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:5173",
-    credentials: true
+    credentials: true,
   })
 );
-app.use((req, res, next) => {
-  console.log('Requested path:', req.path);
-  next();
-});
 
 //routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-if(process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  app.get("*", (req, res) => {
+  app.get("/:splat", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
-  }
-  );
+  });
 }
 
 server.listen(PORT, () => {
