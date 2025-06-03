@@ -26,6 +26,10 @@ app.use(
     credentials: true
   })
 );
+app.use((req, res, next) => {
+  console.log('Requested path:', req.path);
+  next();
+});
 
 //routes
 app.use("/api/auth", authRoutes);
